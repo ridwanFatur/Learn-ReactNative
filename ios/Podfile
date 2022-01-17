@@ -12,6 +12,8 @@ target 'learn_reactnative' do
     :hermes_enabled => false
   )
 
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
   target 'learn_reactnativeTests' do
     inherit! :complete
     # Pods for testing
