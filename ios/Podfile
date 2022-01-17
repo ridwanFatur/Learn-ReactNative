@@ -14,6 +14,8 @@ target 'learn_reactnative' do
 
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
+  pod 'react-native-signature-capture', :path => '../node_modules/react-native-signature-capture'
+
   target 'learn_reactnativeTests' do
     inherit! :complete
     # Pods for testing
