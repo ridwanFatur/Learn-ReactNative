@@ -1,22 +1,28 @@
 import React, { useState } from 'react';
-import { View, Text, ToastAndroid, TextInput } from 'react-native';
+import { View, Text, ToastAndroid, TextInput, Image } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import axios from 'axios';
+global.Buffer = global.Buffer || require('buffer').Buffer;
 
 const MainScreen = () => {
 	const [url, changeUrl] = useState('');
 	const [result, changeResult] = useState('');
 	const [isLoading, changeLoading] = useState(false);
+	const [isError, changeError] = useState(false);
 
 	const requestAPI = async () => {
 		changeLoading(true);
+		changeError(false);
 		try {
-			const response = await axios.get(url);
+			const response = await axios.get(url, { responseType: 'arraybuffer' });
+			const base64 = Buffer.from(response.data, 'binary').toString(
+				'base64',
+			);
 			changeLoading(false);
-			const myJSON = JSON.stringify(response.data);
-			changeResult(response.status + '\n' + myJSON);
+			changeResult(base64);
 		} catch (error) {
 			changeLoading(false);
+			changeError(true);
 			changeResult(error + '');
 		}
 	}
@@ -24,11 +30,17 @@ const MainScreen = () => {
 	const LoadingSection = () => {
 		if (isLoading) {
 			return <Text>Loading...</Text>;
-		} else {
+		} 
+		else if (isError){
+			return <Text>{result}</Text>;
+		}
+		else {
 			if (result == '') {
 				return <Text>Data is Empty</Text>
 			} else {
-				return <Text>{result}</Text>
+				console.log("The Image");
+				return <Image
+					style={{ width: 100, height: 100,}} source={{ uri: `data:image/png;base64,${result}` }} />
 			}
 		}
 	}
@@ -58,7 +70,7 @@ const MainScreen = () => {
 				requestAPI();
 			}}>
 				<View style={{ backgroundColor: 'blue', padding: 20, alignItems: 'center', borderRadius: 10, marginHorizontal: 10 }}>
-					<Text style={{ color: 'white' }}>Request API</Text>
+					<Text style={{ color: 'white' }}>Download Image</Text>
 				</View>
 			</TouchableOpacity>
 			<View style={{ height: 20 }} />
