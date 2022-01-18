@@ -1,19 +1,19 @@
 import * as React from 'react';
-import { View, Text, Button, TextInput } from 'react-native';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { Text, View, Button, TouchableOpacity } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeFragment from '../fragments/HomeFragment';
 import SettingFragment from '../fragments/SettingFragment';
-import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import MyTabBar from '../components/MyTabBar';
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 function NextScreen({ route, navigation }) {
 	return (
-		<Tab.Navigator
-			initialRouteName="Home"
-		>
-			<Tab.Screen name="Home" component={HomeFragment} />
-			<Tab.Screen name="Settings" component={SettingFragment} />
+		<Tab.Navigator tabBar={props => <MyTabBar {...props}/>}>
+			<Tab.Screen name="Home" component={HomeFragment} options={{headerShown: false}}/>
+			<Tab.Screen name="Settings" component={SettingFragment} options={{headerShown: false}}/>
 		</Tab.Navigator>
 	);
 }
