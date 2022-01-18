@@ -14,6 +14,8 @@ target 'learn_reactnative' do
 
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
   target 'learn_reactnativeTests' do
     inherit! :complete
     # Pods for testing
